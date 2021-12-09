@@ -2,13 +2,17 @@ import React, {useState} from 'react'
 import Axios from 'axios'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import '../scss/PostForm.scss'
+
 
 function PostForm(props) {
 	const url = props.url
+	const [File, setFile] = useState(null)
+	const [FileData, setFileData] = useState(null)
 	const [Dataset, setDataset] = useState({
 		Username:'',
-		File:null,
-		FileData:null
+		Sensors: 64,
+		Samples: 794
 	})
 
 	function handle(e) {
@@ -22,9 +26,9 @@ function PostForm(props) {
 	function submit (e) {
 		e.preventDefault()
 
-		Axios.post(url + '/' + Dataset.Username, {
-			File:Dataset.File.split('\\')[-1],
-			FileData: Dataset.FileData
+		Axios.post(url + '/usuario', {
+			File:File,
+			FileData: FileData
 		})
 	}
 
@@ -35,12 +39,19 @@ function PostForm(props) {
 		var file = e.target.files[0];
 		var reader = new FileReader();
 
-		newData[e.target.id] = e.target.value
+		File = e.target.value
 
 		reader.onload = function(e) {
 			// The file's text will be printed here
 			console.log(e.target.result)
-			newData.FileData=e.target.result.toString().replace(/\r/g,'').split('\n')
+			
+			newData.FileData=e.target.result.toString()
+													.replace(/\r/g,'')
+													.split('\n')
+													.map(x => Number(x).toFixed(8))
+													
+			// for(i=0; i<)
+
 			setDataset(newData)
 
 			console.log(newData)
@@ -50,7 +61,7 @@ function PostForm(props) {
 	}
 
 	return (
-		<div>
+		<div className="PostForm">
 			<Form id="main-form" onSubmit={ (e) => submit(e) }>
 
 			<Form.Group>
@@ -59,6 +70,26 @@ function PostForm(props) {
 					type='text'
 					id='Username'
 					value={Dataset.Username}
+					onChange=
+						{ (e) => handle(e) }/>
+			</Form.Group>
+
+			<Form.Group>
+				<Form.Label>Número de sensores</Form.Label>
+				<Form.Control
+					type='number'
+					id='Sensors'
+					value={Dataset.Sensors}
+					onChange=
+						{ (e) => handle(e) }/>
+			</Form.Group>
+
+			<Form.Group>
+				<Form.Label>Número de amostras</Form.Label>
+				<Form.Control
+					type='number'
+					id='Samples'
+					value={Dataset.Samples}
 					onChange=
 						{ (e) => handle(e) }/>
 			</Form.Group>
