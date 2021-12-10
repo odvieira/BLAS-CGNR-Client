@@ -5,6 +5,7 @@ from requests.models import Response
 from tkinter import Tk    # from tkinter import Tk for Python 3.x
 from tkinter.filedialog import askopenfilename
 import math
+import easygui
 
 class Funcoes(object):
     def __init__(self, user, url):
@@ -13,9 +14,11 @@ class Funcoes(object):
         self.url = url
 
     def processar_nova_entrada(self):
-        Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-        filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
-        print(filename)        
+        # Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+        # filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+        # print(filename)        
+
+        filename = easygui.fileopenbox()
         dataFrame = pd.read_csv(filename)
 
         sensors = 64
