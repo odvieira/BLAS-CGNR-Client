@@ -98,13 +98,11 @@ class Funcoes(object):
 
         return
 
-    def baixar_imagens(self, list_of_files):
-        for f in list_of_files:
-            requests.get(
-                self.url + '/imagem/' + str(f)
-            )
-
+    def baixar_imagens(self, list_of_files=None):
+        if list_of_files is not None:
+            for f in list_of_files:
+                requests.get(
+                    self.url + '/imagem/' + str(f)
+                )
+                
         return
-
-    def consultar_todas_enquete(self):
-        pass

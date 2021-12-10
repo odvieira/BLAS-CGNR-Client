@@ -55,10 +55,6 @@ while True:
         f.processar_nova_entrada()
     elif escolha == 2:
         f.recuperar_lista_de_imagens()
-    elif escolha == 3:
-        f.baixar_imagens()
-    elif escolha == 4:
-        f.consultar_todas_enquete()
     elif escolha == 0:
         os._exit(0)
     else:
