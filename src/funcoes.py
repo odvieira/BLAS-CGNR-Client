@@ -38,12 +38,17 @@ class Funcoes(object):
                 gama = 100 + 0.05 * l * math.sqrt(l)
 
                 matrix[l * sensors + c] *= gama
-        
+
+        dataPost = {}
+        dataPost['matriz_sinal_g'] = matrix.dumps()
+
         response = requests.post(
             self.url + \
-                '/usuario' + \
-                '/{0}'.format(self.user['name']),
-            data=matrix
+                '/cgnr/reconstruir/{0}/{1}'.format(
+                    self.user['name'],
+                    str(input("Insira um rótulo para esse arquivo: "))
+                ),
+            data=dataPost
             )
 
         return response
