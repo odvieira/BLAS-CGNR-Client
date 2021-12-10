@@ -14,15 +14,26 @@ class TerminalUtils(object):
 		else:
 				os.system('clear')
 
+	def print_table(self, df):
+		print('=' * self.term_size.columns)
+		print('')
+
+		print(df)
+		
+		print('')
+		print('=' * self.term_size.columns)
+
 	def menu(self):
 		self.clear()
 
-		print("||              MENU                  ||")
-		print('||====================================||')
-		print("||    [1] Processar nova entrada      ||")
-		print("||    [2] Recuperar lista de imagens  ||")
-		print("||    [0] Encerrar aplicação          ||")
-		print('||====================================||')
+		print('\n\n\n')
+		print('\t\t ======================================')
+		print("\t\t||              MENU                  ||")
+		print('\t\t||====================================||')
+		print("\t\t||    [1] Processar nova entrada      ||")
+		print("\t\t||    [2] Recuperar lista de imagens  ||")
+		print("\t\t||    [0] Encerrar aplicação          ||")
+		print('\t\t ======================================')
 		op = int(\
 		input("Digite o número da ação para selecioná-la: ")
 		)

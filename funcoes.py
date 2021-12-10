@@ -77,40 +77,15 @@ class Funcoes(object):
 
         result = response.json()
 
-        print('| {0}\t\t\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}\t\t{6} |'.format(
-            "Nome",
-            "Usuario",
-            "Algoritmo",
-            "Tempo_Inicio",
-            "Tempo_Fim",
-            "Pixels",
-            "# de Iteracoes"
-        ))
-
-        print('=' * self.terminal.term_size.columns)
-
-        for r in result:
-            print(
-                '| {0}\t|\t{1}\t\t|\t{2}\t|\t{3}\t|\t{4}\t|\t{5}\t|\t{6} |'.format(
-                    r['nome'],
-                    r['usuario'],
-                    r['algoritmo'],
-                    r['tempo_inicio'],
-                    r['tempo_fim'],
-                    r['tamanho_pixels'],
-                    r['qntd_iteracoes_executadas']
-                )
-            )
+        df = pd.DataFrame(result)
         
-        print('=' * self.terminal.term_size.columns)
+        self.terminal.print_table(df)
 
         print('Digite o nome dos arquivos que deseja salvar, separado-os por vírgulas: ')
 
-        archive_lst = input('>\t')
+        archive_lst = input('\t> ')
 
-        archive_lst = archive_lst.split(',')
-
-        df = pd.DataFrame(result)
+        archive_lst = archive_lst.replace(' ', '').split(',')
 
         if not os.path.exists('./out/' + df['usuario'].values[0]):
             os.mkdir('./out/{0}'.format(df['usuario'].values[0]))
