@@ -2,11 +2,9 @@ import pandas as pd
 import numpy as np
 import requests
 import math
-import json
 import base64
 from cv2 import cv2
 from utils import TerminalUtils
-
 
 class Funcoes(object):
     def __init__(self, user, url):
@@ -76,23 +74,23 @@ class Funcoes(object):
             self.user['nome']
         ))
 
-        result = json.load(response.json())
+        result = response.json()
 
-        print('|| {0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7} ||'.format(
-            "Nome"
-            "Usuario"
-            "Algoritmo"
-            "Tempo_Inicio"
-            "Tempo_Fim"
-            "Pixels"
+        print('|| {0}\t\t\t{1}\t\t\t{2}\t\t\t{3}\t\t\t{4}\t\t\t{5}\t\t\t{6} ||'.format(
+            "Nome",
+            "Usuario",
+            "Algoritmo",
+            "Tempo_Inicio",
+            "Tempo_Fim",
+            "Pixels",
             "# de Iteracoes"
         ))
 
-        print('=' * self.terminal.term_size)
+        print('=' * self.terminal.term_size.columns)
 
         for r in result:
             print(
-                '|| {0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7} ||'.format(
+                '|| {0}\t\t\t{1}\t\t\t{2}\t\t\t{3}\t\t\t{4}\t\t\t{5}\t\t\t{6} ||'.format(
                     r['nome'],
                     r['usuario'],
                     r['algoritmo'],
@@ -103,7 +101,7 @@ class Funcoes(object):
                 )
             )
         
-        print('=' * self.terminal.term_size)
+        print('=' * self.terminal.term_size.columns)
 
         print('Digite o nome dos arquivos que deseja salvar, separado-os por vírgulas: ')
 
@@ -117,12 +115,16 @@ class Funcoes(object):
             aux = df[df['nome'] == f]
             aux['img']
 
-            string = aux['img']
-            jpg_original = base64.b64decode(string)
+            string = aux['img'].to_string()
+            # string = data_data
+            
+            jpg_original = base64.b64decode(string.encode('ascii'))
             jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
             img = cv2.imdecode(jpg_as_np, flags=1)
-            print('Baixando: ' + aux['nome'])
-            path = input('Local para salvar:')
-            cv2.imwrite('{1}/{0}.jpg'.format(aux['nome'], path), img)
+            
+            print('Salvando ' + aux['nome'] + '...')
+
+            cv2.imwrite('{1}/{0}.jpg'.format(
+                aux['nome'].to_string(), './out'), img)
 
         return
