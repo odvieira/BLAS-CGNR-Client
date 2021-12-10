@@ -21,19 +21,22 @@ while not login:
     user_data = {}
     user_data["nome"] = user
 
-    response = requests.post(url=url + "/usuario", json=user_data)
+    try:
+        response = requests.post(url=url + "/usuario", json=user_data)
 
-    terminal.clear()
+        terminal.clear()
 
-    login = True
+        login = True
 
-    if response.status_code == 200:
-        print("Logado com sucesso!")
-    elif response.status_code == 201:
-        print("Usuario cadastrado com sucesso!")
-    elif response.status_code >= 400:
-        print("Houve um erro na autenticação.")
-        login = False
+        if response.status_code == 200:
+            print("Logado com sucesso!")
+        elif response.status_code == 201:
+            print("Usuario cadastrado com sucesso!")
+        elif response.status_code >= 400:
+            print("Houve um erro na autenticação.")
+            login = False
+    except:
+        login = True
 
 input("\n>> Pressione Enter para prosseguir <<")
 
