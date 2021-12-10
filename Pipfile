@@ -7,6 +7,7 @@ name = "pypi"
 tk = "*"
 pandas = "*"
 numpy = "*"
+requests = "*"
 
 [dev-packages]
 

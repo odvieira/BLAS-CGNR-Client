@@ -21,7 +21,7 @@ while not login:
     user_data = {}
     user_data["nome"] = user
 
-    response = requests.post(url=url + "/usuario", json=json(user_data))
+    response = requests.post(url=url + "/usuario", json=user_data)
 
     terminal.clear()
 
