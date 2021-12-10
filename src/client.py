@@ -8,44 +8,51 @@ url = "http://localhost:8080"
 
 terminal = TerminalUtils()
 
-#Força a criação de um cliente para continuar
-print("Escolha um nome de usuario para começar.")
-user = input()
-print("Bem vindo(a), " + user)
+login = False
 
-#Gerar chave - desabilitado
-#Cadastrar no servidor
-user_data = {}
-user_data["nome"] = user
+while not login:
+    #Força a criação de um cliente para continuar
+    print("Escolha um nome de usuario para começar.")
+    user = input()
+    print("Bem vindo(a), " + user)
 
-response = requests.post(url=url + "/usuario", json=user_data)
+    #Gerar chave - desabilitado
+    #Cadastrar no servidor
+    user_data = {}
+    user_data["nome"] = user
 
-if response.status_code == 200:
-    print("Logado com sucesso")
-else:
-    print("Usuario cadastrado com sucesso")
+    response = requests.post(url=url + "/usuario", json=json(user_data))
+
+    terminal.clear()
+
+    login = True
+
+    if response.status_code == 200:
+        print("Logado com sucesso!")
+    elif response.status_code == 201:
+        print("Usuario cadastrado com sucesso!")
+    elif response.status_code >= 400:
+        print("Houve um erro na autenticação.")
+        login = False
 
 input("\n>> Pressione Enter para prosseguir <<")
 
-# if response.status_code >= 200 and response.status_code <= 299:
-#     #Sucesso
-#     print("Usuario criado com sucesso!")
-#     print("Status Code", response.status_code)
-#     print("Texto", response.text)
-#     print("JSON", response.json())
+terminal.clear()
+
+f = Funcoes(user, url)
 
 #Inicializa menu
 while True:
     escolha = terminal.menu()
 
-    if escolha == 1:  
-        Funcoes.processar_nova_entrada(user)
+    if escolha == 1:
+        f.processar_nova_entrada()
     elif escolha == 2:
-        Funcoes.recuperar_lista_de_imagens(user)
+        f.recuperar_lista_de_imagens()
     elif escolha == 3:
-        Funcoes.baixar_imagens()
+        f.baixar_imagens()
     elif escolha == 4:
-        Funcoes.consultar_todas_enquete(user)
+        f.consultar_todas_enquete()
     elif escolha == 9:
         os._exit(0)
     else:
