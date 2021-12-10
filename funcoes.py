@@ -16,7 +16,17 @@ class Funcoes(object):
 
     def processar_nova_entrada(self):
         # filename = easygui.openfilenamebox()
-        filename = input('Insira o caminho relativo do arquivo de entrada: ')
+
+        suc = False
+        while not suc:
+            filename = input('Insira o caminho relativo do arquivo de entrada: ')
+            try:
+                assert os.path.exists(filename)
+                suc = True
+            except:
+                suc = False
+                self.terminal.err_msg('Arquivo inválido.')
+
         dataFrame = pd.read_csv(filename, header=None)
 
         sensors = 64
@@ -54,8 +64,9 @@ class Funcoes(object):
                 assert rotulo.isalnum
 
                 rot = True
-            except print(0):
+            except:
                 rot = False
+                self.terminal.err_msg('Rótulo inválido.')
 
 
         response = requests.post(

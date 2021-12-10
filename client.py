@@ -15,7 +15,9 @@ while not login:
     #Força a criação de um cliente para continuar
     print("Escolha um nome de usuario para começar.")
     user = input()
-    print("Bem vindo(a), " + user)
+
+    terminal.clear()
+    print("\n\tBem vindo(a), " + user)
 
     #Gerar chave - desabilitado
     #Cadastrar no servidor
@@ -39,7 +41,7 @@ while not login:
     except:
         login = True
 
-input("\n>> Pressione Enter para prosseguir <<")
+terminal.prompt_continuar()
 
 terminal.clear()
 
@@ -59,5 +61,4 @@ while True:
     elif escolha == 0:
         os._exit(0)
     else:
-        print("\nOpção inválida.")
-        input("\n>> Pressione Enter para prosseguir <<")
+        terminal.err_msg("Opção inválida.")

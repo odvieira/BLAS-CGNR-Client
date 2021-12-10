@@ -23,10 +23,18 @@ class TerminalUtils(object):
 		print('')
 		print('=' * self.term_size.columns)
 
+	def prompt_continuar(self):
+		input("\n>> Pressione Enter para prosseguir <<")
+
+	def err_msg(self, msg):
+		self.clear()
+		print("\n\t{0}".format(msg))
+		self.prompt_continuar()
+
 	def menu(self):
 		self.clear()
 
-		print('\n\n\n')
+		print('\n\n')
 		print('\t\t ======================================')
 		print("\t\t||              MENU                  ||")
 		print('\t\t||====================================||')
@@ -35,7 +43,7 @@ class TerminalUtils(object):
 		print("\t\t||    [0] Encerrar aplicação          ||")
 		print('\t\t ======================================')
 		op = int(\
-		input("Digite o número da ação para selecioná-la: ")
+		input("\t\tDigite o número da ação para selecioná-la: ")
 		)
 
 		self.clear()
