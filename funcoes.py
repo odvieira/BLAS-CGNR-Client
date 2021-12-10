@@ -77,7 +77,7 @@ class Funcoes(object):
 
         result = response.json()
 
-        print('| {0}\t\t\t{1}\t\t\t{2}\t\t\t{3}\t\t\t{4}\t\t\t{5}\t\t\t{6} |'.format(
+        print('| {0}\t\t\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5}\t\t{6} |'.format(
             "Nome",
             "Usuario",
             "Algoritmo",
