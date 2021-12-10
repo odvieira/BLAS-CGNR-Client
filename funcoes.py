@@ -60,8 +60,8 @@ class Funcoes(object):
 
         while not rot:
             try:
-                rotulo = str(input("Insira um rótulo para esse arquivo: ")).strip(
-                    ',').strip('/').strip('\\').strip('.')
+                rotulo = str(input("Insira um rótulo para esse arquivo: ")).replace(
+                    ' ', '').strip(',').strip('/').strip('\\').strip('.')
 
                 assert rotulo.isalnum
 
@@ -118,8 +118,6 @@ class Funcoes(object):
             self.terminal.err_msg(
                 'Operação mal sucedida. Retornando ao menu...')
             return
-        else:
-            self.terminal.err_msg('Operação concluída com sucesso!')
 
         result = response.json()
 
