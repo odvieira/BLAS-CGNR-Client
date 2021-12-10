@@ -1,9 +1,7 @@
 import pandas as pd
 import numpy as np
 import requests
-from requests.models import Response
 import math
-import easygui
 import json
 import base64
 from cv2 import cv2

@@ -2,7 +2,6 @@ import requests
 from funcoes import Funcoes
 from utils import TerminalUtils
 import os
-import json
 
 url = "http://localhost:8080"
 
