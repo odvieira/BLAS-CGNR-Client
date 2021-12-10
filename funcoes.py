@@ -7,6 +7,7 @@ import base64
 from cv2 import cv2
 from utils import TerminalUtils
 
+
 class Funcoes(object):
     def __init__(self, user, url):
         super(Funcoes, self).__init__()
@@ -19,7 +20,8 @@ class Funcoes(object):
 
         suc = False
         while not suc:
-            filename = input('Insira o caminho relativo do arquivo de entrada (.csv): ')
+            filename = input(
+                'Insira o caminho relativo do arquivo de entrada (.csv): ')
             try:
                 assert os.path.exists(filename)
                 suc = True
@@ -59,37 +61,70 @@ class Funcoes(object):
         while not rot:
             try:
                 rotulo = str(input("Insira um rótulo para esse arquivo: ")).strip(
-                ',').strip('/').strip('\\').strip('.')
+                    ',').strip('/').strip('\\').strip('.')
 
                 assert rotulo.isalnum
+
+                assert rotulo != ""
 
                 rot = True
             except:
                 rot = False
                 self.terminal.err_msg('Rótulo inválido.')
 
+        suc = False
+        tentativas = 0
+        while not suc and tentativas < 2:
+            tentativas += 1
+            try:
+                response = requests.post(
+                    self.url +
+                    '/cgnr/reconstruir/{0}/{1}'.format(
+                        self.user['nome'],
+                        rotulo
+                    ),
+                    json=dataPost
+                )
 
-        response = requests.post(
-            self.url +
-            '/cgnr/reconstruir/{0}/{1}'.format(
-                self.user['nome'],
-                rotulo
-            ),
-            json=dataPost
-        )
+                suc = True
+            except:
+                suc = False
+                self.terminal.err_msg('A conexão com o servidor falhou.')
 
-        return response
+        if not suc:
+            self.terminal.err_msg(
+                'Operação mal sucedida. Retornando ao menu...')
+            return
+        else:
+            self.terminal.err_msg('Operação concluída com sucesso!')
 
     def recuperar_lista_de_imagens(self):
-        response = requests.get('{0}/{1}/'.format(
-            self.url + '/imagem',
-            self.user['nome']
-        ))
+        suc = False
+        tentativas = 0
+        while not suc and tentativas < 2:
+            tentativas += 1
+            try:
+                response = requests.get('{0}/{1}/'.format(
+                    self.url + '/imagem',
+                    self.user['nome']
+                ))
+
+                suc = True
+            except:
+                suc = False
+                self.terminal.err_msg('A conexão com o servidor falhou.')
+
+        if not suc:
+            self.terminal.err_msg(
+                'Operação mal sucedida. Retornando ao menu...')
+            return
+        else:
+            self.terminal.err_msg('Operação concluída com sucesso!')
 
         result = response.json()
 
         df = pd.DataFrame(result)
-        
+
         self.terminal.print_table(df)
 
         print('Digite o nome dos arquivos que deseja salvar, separado-os por vírgulas: ')
@@ -107,17 +142,17 @@ class Funcoes(object):
 
             string = aux['img'].values[0]
             # string = data_data
-            
+
             jpg_original = base64.b64decode(string.encode('ascii'))
             jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
             img = cv2.imdecode(jpg_as_np, flags=1)
-            
+
             print('Salvando ' + aux['nome'] + '...')
 
             cv2.imwrite('{1}/{0}.jpg'.format(
                 aux['nome'].to_string(),
                 './out/{0}'.format(df['usuario'].values[0])
-                ),
-            img)
+            ),
+                img)
 
         return

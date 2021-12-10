@@ -1,7 +1,7 @@
-import requests
-from funcoes import Funcoes
-from utils import TerminalUtils
 import os
+import requests
+from utils import TerminalUtils
+from funcoes import Funcoes
 
 url = "http://localhost:8080"
 
@@ -49,16 +49,16 @@ f = Funcoes(user_data, url)
 
 #Inicializa menu
 while True:
-    escolha = terminal.menu()
-    
-    if escolha not in range(9):
-        escolha = -1
+        escolha = terminal.menu()
+        
+        if escolha not in range(9):
+                escolha = -1
 
-    if escolha == 1:
-        f.processar_nova_entrada()
-    elif escolha == 2:
-        f.recuperar_lista_de_imagens()
-    elif escolha == 0:
-        os._exit(0)
-    else:
-        terminal.err_msg("Opção inválida.")
+        if escolha == 1:
+                f.processar_nova_entrada()
+        elif escolha == 2:
+                f.recuperar_lista_de_imagens()
+        elif escolha == 0:
+                os._exit(0)
+        else:
+                terminal.err_msg("Opção inválida.")

@@ -51,4 +51,4 @@ class TerminalUtils(object):
 
 		self.clear()
 
-		return op
+		return op			
