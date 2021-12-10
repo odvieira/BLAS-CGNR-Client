@@ -21,11 +21,10 @@ class TerminalUtils(object):
 		print('||====================================||')
 		print("||    [1] Processar nova entrada      ||")
 		print("||    [2] Recuperar lista de imagens  ||")
-		print("||    [3] Baixar imagens              ||")
 		print("||    [0] Encerrar aplicação          ||")
 		print('||====================================||')
 		op = int(\
-		input("Digite o número para selecionar a ação:             ")
+		input("Digite o número da ação para selecioná-la: ")
 		)
 
 		self.clear()

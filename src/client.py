@@ -58,4 +58,5 @@ while True:
     elif escolha == 0:
         os._exit(0)
     else:
-        print("Opção inválida.")
+        print("\nOpção inválida.")
+        input("\n>> Pressione Enter para prosseguir <<")
