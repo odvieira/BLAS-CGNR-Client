@@ -9,9 +9,11 @@ pandas = "*"
 numpy = "*"
 requests = "*"
 easygui = "*"
+opencv-python = "*"
 
 [dev-packages]
 ipykernel = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.9"

@@ -5,6 +5,9 @@ from requests.models import Response
 import math
 import easygui
 import json
+import base64
+from cv2 import cv2
+
 
 class Funcoes(object):
     def __init__(self, user, url):
@@ -24,12 +27,12 @@ class Funcoes(object):
 
         if type(aux) is int and aux > 0:
             sensors = aux
-        
+
         aux = input("Número de amostras (794): ")
 
         if type(aux) is int and aux > 0:
             samples = aux
-        
+
         matrix = dataFrame.values
 
         k = 0
@@ -43,13 +46,13 @@ class Funcoes(object):
         dataPost['matriz_sinal_g'] = matrix.ravel().tolist()
 
         response = requests.post(
-            self.url + \
-                '/cgnr/reconstruir/{0}/{1}'.format(
-                    self.user['nome'],
-                    str(input("Insira um rótulo para esse arquivo: "))
-                ),
+            self.url +
+            '/cgnr/reconstruir/{0}/{1}'.format(
+                self.user['nome'],
+                str(input("Insira um rótulo para esse arquivo: "))
+            ),
             json=dataPost
-            )
+        )
 
         return response
 
@@ -94,15 +97,20 @@ class Funcoes(object):
 
         archive_lst = archive_lst.split(',')
 
-        self.baixar_imagens(archive_lst)
+        df = pd.DataFrame(result)
 
-        return
+        for f in archive_lst:
+            aux = df[df['nome'] == f]
+            aux['img']
 
-    def baixar_imagens(self, list_of_files=None):
-        if list_of_files is not None:
-            for f in list_of_files:
-                requests.get(
-                    self.url + '/imagem/' + str(f)
-                )
-                
+            string = aux['img']
+            jpg_original = base64.b64decode(string)
+            jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
+            img = cv2.imdecode(jpg_as_np, flags=1)
+            print('Baixando: ' + aux['nome'])
+            path = input('Local para salvar:')
+            cv2.imwrite('{1}/{0}.jpg'.format(aux['nome'], path), img)
+
+        self.baixar_imagens(archive_lst, result)
+
         return
