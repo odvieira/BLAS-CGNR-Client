@@ -10,6 +10,8 @@ terminal = TerminalUtils()
 login = False
 
 while not login:
+    terminal.clear()
+    
     #Força a criação de um cliente para continuar
     print("Escolha um nome de usuario para começar.")
     user = input()
