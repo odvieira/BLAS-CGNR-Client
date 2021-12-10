@@ -19,7 +19,7 @@ class Funcoes(object):
 
         suc = False
         while not suc:
-            filename = input('Insira o caminho relativo do arquivo de entrada: ')
+            filename = input('Insira o caminho relativo do arquivo de entrada (.csv): ')
             try:
                 assert os.path.exists(filename)
                 suc = True

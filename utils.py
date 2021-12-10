@@ -15,6 +15,8 @@ class TerminalUtils(object):
 				os.system('clear')
 
 	def print_table(self, df):
+		self.clear()
+		print('')
 		print('=' * self.term_size.columns)
 		print('')
 
@@ -30,6 +32,7 @@ class TerminalUtils(object):
 		self.clear()
 		print("\n\t{0}".format(msg))
 		self.prompt_continuar()
+		self.clear()
 
 	def menu(self):
 		self.clear()
