@@ -4,6 +4,7 @@ import requests
 from requests.models import Response
 import math
 import easygui
+import json
 
 class Funcoes(object):
     def __init__(self, user, url):
@@ -12,7 +13,8 @@ class Funcoes(object):
         self.url = url
 
     def processar_nova_entrada(self):
-        filename = easygui.fileopenbox()
+        # filename = easygui.openfilenamebox()
+        filename = "G-1.csv"
         dataFrame = pd.read_csv(filename, header=None)
 
         sensors = 64
@@ -30,31 +32,79 @@ class Funcoes(object):
         
         matrix = dataFrame.values
 
-        for c in range(sensors):
-            for l in range(samples):
-                gama = 100 + 0.05 * l * math.sqrt(l)
-
-                matrix[l * sensors + c] *= gama
+        k = 0
+        for l in range(samples):
+            for c in range(sensors):
+                gama = 100 + 0.05 * (c+1) * math.sqrt(c+1)
+                matrix[k] *= gama
+                k += 1
 
         dataPost = {}
-        dataPost['matriz_sinal_g'] = matrix.dumps()
+        dataPost['matriz_sinal_g'] = matrix.ravel().tolist()
 
         response = requests.post(
             self.url + \
                 '/cgnr/reconstruir/{0}/{1}'.format(
-                    self.user['name'],
+                    self.user['nome'],
                     str(input("Insira um rótulo para esse arquivo: "))
                 ),
-            data=dataPost
+            json=dataPost
             )
 
         return response
 
     def recuperar_lista_de_imagens(self):
-        pass
+        response = requests.get('{0}/{1}/'.format(
+            self.url + '/imagem',
+            self.user['nome']
+        ))
 
-    def baixar_imagens(self):
-        pass
+        result = json.load(response.json())
+
+        # pretty_object = json.dumps(result, indent=4)
+
+        # print(pretty_object)
+
+        print('|| {0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7} ||'.format(
+            "Nome"
+            "Usuario"
+            "Algoritmo"
+            "Tempo_Inicio"
+            "Tempo_Fim"
+            "Pixels"
+            "# de Iteracoes"
+        ))
+
+        for r in result:
+            print(
+                '|| {0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7} ||'.format(
+                    r['nome'],
+                    r['usuario'],
+                    r['algoritmo'],
+                    r['tempo_inicio'],
+                    r['tempo_fim'],
+                    r['tamanho_pixels'],
+                    r['qntd_iteracoes_executadas']
+                )
+            )
+
+        print('Digite o nome dos arquivos que deseja salvar,  separado-os por vírgulas: ')
+
+        archive_lst = input('>\t')
+
+        archive_lst = archive_lst.split(',')
+
+        self.baixar_imagens(archive_lst)
+
+        return
+
+    def baixar_imagens(self, list_of_files):
+        for f in list_of_files:
+            requests.get(
+                self.url + '/imagem/' + str(f)
+            )
+
+        return
 
     def consultar_todas_enquete(self):
         pass

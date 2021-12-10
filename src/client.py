@@ -42,11 +42,14 @@ input("\n>> Pressione Enter para prosseguir <<")
 
 terminal.clear()
 
-f = Funcoes(user, url)
+f = Funcoes(user_data, url)
 
 #Inicializa menu
 while True:
     escolha = terminal.menu()
+    
+    if escolha not in range(9):
+        escolha = -1
 
     if escolha == 1:
         f.processar_nova_entrada()
@@ -56,7 +59,7 @@ while True:
         f.baixar_imagens()
     elif escolha == 4:
         f.consultar_todas_enquete()
-    elif escolha == 9:
+    elif escolha == 0:
         os._exit(0)
     else:
         print("Opção inválida.")

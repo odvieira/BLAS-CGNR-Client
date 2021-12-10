@@ -1,9 +1,10 @@
 import os, platform
 
-
 class TerminalUtils(object):
 	def __init__(self, *args):
 			super(TerminalUtils, self).__init__(*args)
+
+			self.term_size = os.get_terminal_size()
 
 			pass
 				
@@ -14,14 +15,15 @@ class TerminalUtils(object):
 				os.system('clear')
 
 	def menu(self):
-		print("====================================================")
-		print("||                      MENU                      ||")
-		print("====================================================")
-		print("|| [1] Processar nova entrada                     ||")
-		print("|| [2] Recuperar lista de imagens                 ||")
-		print("|| [3] Baixar imagens                             ||")
-		print("|| [0] Encerrar apliciação                        ||")
-		print("====================================================")
+		self.clear()
+
+		print("||              MENU                  ||")
+		print('||====================================||')
+		print("||    [1] Processar nova entrada      ||")
+		print("||    [2] Recuperar lista de imagens  ||")
+		print("||    [3] Baixar imagens              ||")
+		print("||    [0] Encerrar aplicação          ||")
+		print('||====================================||')
 		op = int(\
 		input("Digite o número para selecionar a ação:             ")
 		)
