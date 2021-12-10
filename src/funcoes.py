@@ -39,12 +39,11 @@ class Funcoes(object):
 
                 matrix[l * sensors + c] *= gama
         
-
         response = requests.post(
             self.url + \
                 '/usuario' + \
                 '/{0}'.format(self.user['name']),
-            data=data
+            data=matrix
             )
 
         return response
@@ -57,16 +56,3 @@ class Funcoes(object):
 
     def consultar_todas_enquete(self):
         pass
-        
-        
-
-
-class Funcoes:
-       def consultar_todas_enquete(user):
-        print("Consultando TODAS enquete.")
-
-        url = "http://localhost:8080/eduudle/enquete/"
-
-        response = requests.get(url=url)
-        for item in response:
-            print(item)
